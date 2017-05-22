@@ -4,11 +4,13 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -23,34 +25,40 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //db = openOrCreateDatabase("ZailetDB6",Context.MODE_PRIVATE,null);
         /*
         db.execSQL("create table posts(\n" +
                 "id integer primary key,\n" +
                 "title varchar(40),\n" +
                 "post_data varchar(40)\n" +
                 ");");
+        */
+        /*
         db.execSQL("create table topics_english(\n" +
                 "id integer primary key,\n" +
                 "interest varchar(20),\n" +
                 "cover_photo varchar(80)\n" +
                 ");");
+              */
+        /*
         db.execSQL("create table topics_map(\n" +
                 "id integer primary key,\n" +
                 "post_id integer,\n" +
                 "topic_id integer\n" +
                 ");");
-        db.execSQL("insert into posts values (1,'How you can perform telekinesis!','Some data 1');\n" +
-                "insert into posts values (2,'Should you be chasing your dreams?','Some data 2');\n" +
-                "insert into posts values (3,'Three things you should never do!','Some data 3');\n" +
-                "insert into topics_english values (1,'Mystery','link1');\n" +
-                "insert into topics_english values (2,'Supernatural','link2');\n" +
-                "insert into topics_english values (3,'Motivation','link3');\n" +
-                "insert into topics_map values (1,1,1);\n" +
-                "insert into topics_map values (2,1,2);\n" +
-                "insert into topics_map values (3,2,3);\n" +
-                "insert into topics_map values (4,3,1);");
-        db.close();
+
         */
+        // insert into posts values (1,'How you can perform telekinesis!','Some data 1');
+        //db.execSQL("insert into posts values (2,'Should you be chasing your dreams?','Some data 2');");
+        //db.execSQL("insert into posts values (3,'Three things you should never do!','Some data 3');");
+        //db.execSQL("insert into topics_english values (1,'Mystery','link1');");
+        //db.execSQL("insert into topics_english values (2,'Supernatural','link2');");
+        //db.execSQL("insert into topics_english values (3,'Motivation','link3');");
+        //db.execSQL("insert into topics_map values (1,1,1);");
+        //db.execSQL("insert into topics_map values (2,1,2);");
+        //db.execSQL("insert into topics_map values (3,2,3);");
+        //db.execSQL("insert into topics_map values (4,3,1);");
+        //db.close();
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
@@ -89,55 +97,27 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         int id = (int) searchView.getSuggestionsAdapter().
                 getItemId(position) + 1;
 
-        Intent intent = new Intent(this, SearchResult.class);
+        //Intent intent = new Intent(this, SearchResult.class);
 
         //intent.putExtra("id", Integer.toString(id));
         // Toast.makeText(getApplicationContext(),""+id,Toast.LENGTH_LONG).show();
-        /*
-        db = openOrCreateDatabase("ZailetDB5",Context.MODE_PRIVATE,null);
-        db.execSQL("create table posts(\n" +
-                "id integer primary key,\n" +
-                "title varchar(40),\n" +
-                "post_data varchar(40)\n" +
-                ");");
-        db.execSQL("create table topics_english(\n" +
-                "id integer primary key,\n" +
-                "interest varchar(20),\n" +
-                "cover_photo varchar(80)\n" +
-                ");");
-        db.execSQL("create table topics_map(\n" +
-                "id integer primary key,\n" +
-                "post_id integer,\n" +
-                "topic_id integer\n" +
-                ");");
-        db.execSQL("insert into posts values (1,'How you can perform telekinesis!','Some data 1');\n" +
-                "insert into posts values (2,'Should you be chasing your dreams?','Some data 2');\n" +
-                "insert into posts values (3,'Three things you should never do!','Some data 3');\n" +
-                "insert into topics_english values (1,'Mystery','link1');\n" +
-                "insert into topics_english values (2,'Supernatural','link2');\n" +
-                "insert into topics_english values (3,'Motivation','link3');\n" +
-                "insert into topics_map values (1,1,1);\n" +
-                "insert into topics_map values (2,1,2);\n" +
-                "insert into topics_map values (3,2,3);\n" +
-                "insert into topics_map values (4,3,1);");
-        */
-
+        db = openOrCreateDatabase("ZailetDB6",Context.MODE_PRIVATE,null);
         //Cursor c= db.rawQuery("SELECT * FROM posts,topics_english,topics_map where post_id=posts.id and topic_id=topics_english.id and posts.id="+id,null);
-        //c.moveToFirst();
-        //Log.d("c.getcount",Integer.toString(c.getCount()));
-        //if(c.getCount()>0)
-        //{
-            /*
+        Cursor c = db.rawQuery(" SELECT * FROM posts,topics_english,topics_map where posts.id=topics_map.post_id and topics_english.id=topics_map.topic_id and posts.id="+id+";",null);
+        //Log.d("debug",Integer.toString(c.getColumnCount()));
+        c.moveToFirst();
+        if(c.getCount()>0)
+        {
             String title = c.getString(1);
             String post_data = c.getString(2);
-            String interest = c.getString(3);
-            String coverphoto = c.getString(4);
-            String post_id = c.getString(5);
-            String topic_id = c.getString(6);
+            String interest = c.getString(4);
+            String coverphoto = c.getString(5);
+            String post_id = c.getString(7);
+            String topic_id = c.getString(8);
             Log.d("Toast",Integer.toString(id)+title+post_data+interest+coverphoto+post_id+topic_id);
-            Toast.makeText(getApplicationContext(),Integer.toString(id)+title+post_data+interest+coverphoto+post_id+topic_id,Toast.LENGTH_LONG).show();
-            */
-        //}
+            Toast.makeText(getApplicationContext(),Integer.toString(id)+"  "+title+"  "+post_data+interest+"  "+coverphoto+"  "+post_id+"  "+topic_id,Toast.LENGTH_LONG).show();
+        }
+        /*
         if (id==1)
         {
             Toast.makeText(getApplicationContext(),"Mystery,SuperNatural",Toast.LENGTH_LONG).show();
@@ -150,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         {
             Toast.makeText(getApplicationContext(),"Mystery",Toast.LENGTH_LONG).show();
         }
+        */
         //startActivity(intent);
         return false;
     }

@@ -19,12 +19,13 @@ topic_id integer
 insert into posts values (1,'How you can perform telekinesis!','Some data 1');
 insert into posts values (2,'Should you be chasing your dreams?','Some data 2');
 insert into posts values (3,'Three things you should never do!','Some data 3');
-
 insert into topics_english values (1,'Mystery','link1');
 insert into topics_english values (2,'Supernatural','link2');
 insert into topics_english values (3,'Motivation','link3');
-
 insert into topics_map values (1,1,1);
 insert into topics_map values (2,1,2);
 insert into topics_map values (3,2,3);
 insert into topics_map values (4,3,1);
+insert into search values (1,'How you can perform telekinesis!');
+insert into search values (2,'Should you be chasing your dreams?');
+insert into search values (3,'Three things you should never do!');
